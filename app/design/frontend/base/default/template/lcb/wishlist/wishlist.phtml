@@ -1,0 +1,205 @@
+<?php
+$customerId = Mage::getSingleton('customer/session')->getCustomer()->getId();
+if (!$customerId) {
+    $customerId = $this->getRequest()->getParam('cid');
+}
+$favoriteProductsParts = Mage::getModel('lcb_wishlist/wishlist')->getWishesGroup($customerId, 'parts', 'product');
+$favoriteCategoriesParts = Mage::getModel('lcb_wishlist/wishlist')->getWishesGroup($customerId, 'parts');
+$favoriteProductsRepairs = Mage::getModel('lcb_wishlist/wishlist')->getWishesGroup($customerId, 'repairs', 'product');
+$favoriteCategoriesRepairs = Mage::getModel('lcb_wishlist/wishlist')->getWishesGroup($customerId, 'repairs');
+?>
+
+<div class="wishlist-navigation">
+    <h2 class="text-left mt-5"><?php echo $this->__('Ulubione') ?></h2>
+    <nav id="tabs" class="d-flex">
+        <a id="tab1" class="tab-nav active button small w-fit-content me-2">
+            <?php echo $this->__('Kategorie PARTS') ?>&nbsp;
+            <span>(<?= count($favoriteCategoriesParts) ?>)</span>
+        </a>
+        <a id="tab2" class="tab-nav button small w-fit-content me-2">
+            <?php echo $this->__('Produkty PARTS') ?>&nbsp;
+            <span>(<?= count($favoriteProductsParts) ?>)</span>
+        </a>
+        <a id="tab3" class="tab-nav button small w-fit-content me-2">
+            <?php echo $this->__('Kategorie REPAIRS') ?>&nbsp;
+            <span>(<?= count($favoriteCategoriesRepairs) ?>)</span>
+        </a>
+        <a id="tab4" class="tab-nav button small w-fit-content me-2">
+            <?php echo $this->__('Produkty REPAIRS') ?>&nbsp;
+            <span>(<?= count($favoriteProductsRepairs) ?>)</span>
+        </a>
+    </nav>
+</div>
+
+<div id="tab1C" class="tab-content">
+    <div id="coma">
+        <?php if (count($favoriteCategoriesParts)): ?>
+            <ul class="wishlist-list data-list" id="wishlist-list">
+                <?php foreach ($favoriteCategoriesParts as $item): ?>
+                    <?php $category = Mage::getModel("catalog/category")->load($item->getItemId()); ?>
+                    <li id="item_<?= $item->getId(); ?>">
+                        <h3><?= $category->getName(); ?></h3>
+                        <span class="icon-star-blue lp-pl--item-wishlist"
+                              data-uri="<?= $this->getBaseUrl() . $category->getUrlPath(); ?>"
+                              id="<?= $item->getId(); ?>"></span>
+                        <a href="<?= $this->getBaseUrl() . $category->getUrlPath(); ?>"
+                           class="button mt-4 w-fit-content mx-auto">
+                            <?php echo $this->__('Zobacz kategorię') ?>
+                            <span class="icon-arrow-go ms-2"></span>
+                        </a>
+                    </li>
+                <?php endforeach ?>
+            </ul>
+        <?php else: ?>
+            <div class="text-center mb-5">
+                <span class="icon-star-line empty-star-heading"></span>
+                <h3 class="mb-2">
+                    <?php echo $this->__('Nie masz ulubionych kategorii') ?>
+                </h3>
+                <p>
+                    <?php echo $this->__('Może czas je znaleźć?') ?>
+                </p>
+                <a href="<?php echo $this->getUrl('czesci.html') ?>" class="button mt-4 w-fit-content mx-auto">
+                    <?php echo $this->__('Zobacz urządzenia') ?>
+                    <span class="icon-arrow-go ms-2"></span>
+                </a>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<div id="tab2C" class="tab-content">
+    <?php if (count($favoriteProductsParts)): ?>
+    <div class="row">
+        <?php foreach ($favoriteProductsParts as $favoriteProduct): ?>
+            <?php $product = Mage::getModel('catalog/product')->load($favoriteProduct->getItemId()); ?>
+            <div class="col-xl-6">
+                <div class="panel-default mb-3">
+                    <div class="align-items-center d-flex panel-default--header justify-content-between">
+                        <h4><?= $product->getName() . ' ' . $product->getGtxCatalogno(); ?></h4>
+                        <span class="icon-star-blue lp-pl--item-wishlist"
+                              data-uri="<?= $product->getProductUrl(true) ?>"
+                              id="<?= $favoriteProduct->getId(); ?>"></span>
+                        <a style="font-size: 18px;">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="panel-default--content">
+                        <a href="<?= $product->getProductUrl(true) ?>"
+                           class="text-decoration-none d-flex align-items-center" style="font-weight: 600;">
+                            <span class="icon-arrow-go color-primary-light ms-2" style="font-size: 11px;"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach ?>
+        <?php endif; ?>
+    </div>
+</div>
+<div id="tab3C" class="tab-content">
+    <div id="coma">
+        <?php if (!empty($favoriteCategoriesRepairs->getData())): ?>
+            <ul class="wishlist-list data-list" id="wishlist-list">
+                <?php foreach ($favoriteCategoriesRepairs as $item): ?>
+                    <?php $category = Mage::getModel("catalog/category")->load($item->getItemId()); ?>
+                    <li id="item_<?= $item->getId(); ?>">
+                        <h3><?= $category->getName(); ?></h3>
+                        <span class="icon-star-blue lp-pl--item-wishlist"
+                              data-uri="<?= $this->getBaseUrl() . $category->getUrlPath(); ?>"
+                              id="<?= $item->getId(); ?>"></span>
+                        <a href="<?= $this->getBaseUrl() . $category->getUrlPath(); ?>"
+                           class="button mt-4 w-fit-content mx-auto">
+                            <?php echo $this->__('Zobacz kategorię') ?>
+                            <span class="icon-arrow-go ms-2"></span>
+                        </a>
+                    </li>
+                <?php endforeach ?>
+            </ul>
+        <?php else: ?>
+            <div class="text-center mb-5">
+                <span class="icon-star-line empty-star-heading"></span>
+                <h3 class="mb-2">
+                    <?php echo $this->__('Nie masz ulubionych kategorii') ?>
+                </h3>
+                <p>
+                    <?php echo $this->__('Może czas je znaleźć?') ?>
+                </p>
+                <a href="<?php echo $this->getUrl('czesci.html') ?>" class="button mt-4 w-fit-content mx-auto">
+                    <?php echo $this->__('Zobacz urządzenia') ?>
+                    <span class="icon-arrow-go ms-2"></span>
+                </a>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+<div id="tab4C" class="tab-content">
+    <?php if (count($favoriteProductsRepairs)): ?>
+    <div class="row">
+        <?php foreach ($favoriteProductsRepairs as $favoriteProduct): ?>
+            <?php $product = Mage::getModel('catalog/product')->load($favoriteProduct->getItemId()); ?>
+            <div class="col-xl-6">
+                <div class="panel-default mb-3">
+                    <div class="align-items-center d-flex panel-default--header justify-content-between">
+                        <h4><?= $product->getName() . ' ' . $product->getGtxCatalogno(); ?></h4>
+                        <span class="icon-star-blue lp-pl--item-wishlist"
+                              data-uri="<?= $product->getProductUrl(true) ?>"
+                              id="<?= $favoriteProduct->getId(); ?>"></span>
+                        <a style="font-size: 18px;">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="panel-default--content">
+                        <a href="<?= $product->getProductUrl(true) ?>"
+                           class="text-decoration-none d-flex align-items-center" style="font-weight: 600;">
+                            <span class="icon-arrow-go color-primary-light ms-2" style="font-size: 11px;"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach ?>
+        <?php endif; ?>
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function ($) {
+        $('.tab-content').hide();
+        $('.tab-content:first').show();
+        $('#tabs a').click(function () {
+            var t = $(this).attr('id');
+            if ($(this).hasClass('tab-nav')) {
+                $('#tabs a').removeClass('active');
+                $(this).addClass('active');
+                $('.tab-content').hide();
+                $('#' + t + 'C').show();
+            }
+        });
+    });
+
+    jQuery('.lp-pl--item-wishlist').on('click', function (e) {
+        let star = jQuery(this);
+        let itemId = star.attr('id');
+        let formdata = new FormData();
+        formdata.append('item', itemId);
+        if (star.hasClass('icon-star-blue')) {
+            removeWishlistById(formdata);
+            star.removeClass('icon-star-blue');
+            star.addClass('icon-star-line');
+        }
+    });
+
+    function removeWishlistById(formdata) {
+        var url = '<?php echo $this->getUrl("wishes/index/removewishbyid") ?>';
+        jQuery.ajax({
+            url: url,
+            method: 'POST',
+            data: formdata,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert(data);
+                location.reload();
+            }
+        });
+    }
+</script>

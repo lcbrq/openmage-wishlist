@@ -1,0 +1,4 @@
+app/code/local/LCB/Wishlist
+app/etc/modules/LCB_Wishlist.xml
+app/design/frontend/base/default/layout/lcb_wishlist.xml
+app/design/frontend/base/default/template/lcb/wishlist
