@@ -1,0 +1,20 @@
+{
+    "name": "lcbrq/openmage-wishlist",
+    "description": "Simple OpenMage module skeleton to add any entity to wishlist with AJAX",
+    "type": "magento-module",
+    "authors": [
+        {
+            "name": "Silpion Tomasz Gregorczyk",
+            "email": "tom@lcbrq.com"
+        },
+        {
+            "name": "Zbigniew Kelniarz",
+            "email": "z.kelniarz@silpion.io"
+        }
+    ],
+    "license": "MIT",
+    "require": {},
+    "extra": {
+        "magento-root-dir":"./"
+    }
+}

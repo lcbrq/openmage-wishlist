@@ -5,24 +5,6 @@
             <version>0.1.0</version>
         </LCB_Wishlist>
     </modules>
-    <frontend>
-        <routers>
-            <lcb_wishlist>
-                <use>standard</use>
-                <args>
-                    <module>LCB_Wishlist</module>
-                    <frontName>wishes</frontName>
-                </args>
-            </lcb_wishlist>
-        </routers>
-        <layout>
-            <updates>
-                <lcb_wishlist>
-                    <file>lcb_wishlist.xml</file>
-                </lcb_wishlist>
-            </updates>
-        </layout>
-    </frontend>
     <global>
         <models>
             <lcb_wishlist>
@@ -38,11 +20,6 @@
                 </entities>
             </lcb_wishlist_resource>
         </models>
-        <blocks>
-            <lcb_wishlist>
-                <class>LCB_Wishlist_Block</class>
-            </lcb_wishlist>
-        </blocks>
         <helpers>
             <lcb_wishlist>
                 <class>LCB_Wishlist_Helper</class>
@@ -56,4 +33,22 @@
             </lcb_wishlist_setup>
         </resources>
     </global>
+    <frontend>
+        <routers>
+            <lcb_wishlist>
+                <use>standard</use>
+                <args>
+                    <module>LCB_Wishlist</module>
+                    <frontName>lcb_wishlist</frontName>
+                </args>
+            </lcb_wishlist>
+        </routers>
+        <layout>
+            <updates>
+                <lcb_wishlist>
+                    <file>lcb_wishlist.xml</file>
+                </lcb_wishlist>
+            </updates>
+        </layout>
+    </frontend>
 </config>

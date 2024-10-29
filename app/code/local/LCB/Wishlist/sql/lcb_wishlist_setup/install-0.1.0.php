@@ -22,8 +22,8 @@ if ($installer->getConnection()->isTableExists($tableName) != true) {
         )
         ->addColumn(
             'customer_id',
-            Varien_Db_Ddl_Table::TYPE_TEXT,
-            255,
+            Varien_Db_Ddl_Table::TYPE_INTEGER,
+            11,
             array(),
             'customer id'
         )
