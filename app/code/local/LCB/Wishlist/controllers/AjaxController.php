@@ -1,5 +1,4 @@
 <?php
-
 class LCB_Wishlist_AjaxController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction()
@@ -17,10 +16,13 @@ class LCB_Wishlist_AjaxController extends Mage_Core_Controller_Front_Action
         $itemId = $this->getRequest()->getParam('item_id');
         $itemType = $this->getRequest()->getParam('item_type');
         $itemName = $this->getRequest()->getParam('item_name');
+        $itemSubgroup = $this->getRequest()->getParam('item_subgroup');
 
         $item = Mage::getModel('lcb_wishlist/wishlist')->getCollection()
                 ->addFieldToFilter('customer_id', $customerId)
                 ->addFieldToFilter('item_id', $itemId)
+                ->addFieldToFilter('item_group', $itemType)
+                ->addFieldToFilter('item_subgroup', $itemSubgroup)
                 ->getFirstItem();
 
         if (!$item->getId()) {
@@ -29,6 +31,7 @@ class LCB_Wishlist_AjaxController extends Mage_Core_Controller_Front_Action
                 'item_id' => $itemId,
                 'item_name' => $itemName,
                 'item_group' =>$itemType,
+                'item_subgroup' =>$itemSubgroup,
             ])->save();
         }
 
@@ -47,7 +50,8 @@ class LCB_Wishlist_AjaxController extends Mage_Core_Controller_Front_Action
     {
         $addedItemsIds = Mage::getModel('lcb_wishlist/wishlist')->getCollection()
                 ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getId())
-                ->addFieldToFilter('item_group', $this->getRequest()->getParam('type'))
+                ->addFieldToFilter('item_group', $this->getRequest()->getParam('item_type'))
+                ->addFieldToFilter('item_subgroup', $this->getRequest()->getParam('item_subgroup'))
                 ->getColumnValues('item_id');
 
         return $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($addedItemsIds));
@@ -60,10 +64,14 @@ class LCB_Wishlist_AjaxController extends Mage_Core_Controller_Front_Action
     {
         $customerId = Mage::getSingleton('customer/session')->getId();
         $itemId = $this->getRequest()->getParam('item_id');
+        $itemSubgroup = $this->getRequest()->getParam('item_subgroup');
+        $itemGroup = $this->getRequest()->getParam('item_type');
 
         $item = Mage::getModel('lcb_wishlist/wishlist')->getCollection()
                 ->addFieldToFilter('customer_id', $customerId)
                 ->addFieldToFilter('item_id', $itemId)
+                ->addFieldToFilter('item_group', $itemGroup)
+                ->addFieldToFilter('item_subgroup', $itemSubgroup)
                 ->getFirstItem()
                 ->delete();
 
